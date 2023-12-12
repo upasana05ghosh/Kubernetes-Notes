@@ -19,6 +19,16 @@ Kubernetes-Notes from "Kubernetes in Action"
     - [To port-forward](#to-port-forward)
     - [Namespaces](#namespaces)
     - [Stopping and removing pods](#stopping-and-removing-pods)
+  - [Replication and other controllers](#replication-and-other-controllers)
+    - [Keeping pods healthy](#keeping-pods-healthy)
+    - [Replication Controller](#replication-controller)
+    - [Using ReplicaSets instead of ReplicationController](#using-replicasets-instead-of-replicationcontroller)
+    - [DaemonSets](#daemonsets)
+    - [Job](#job)
+    - [Cron Job](#cron-job)
+  - [Services](#services)
+    - [Kubernetes Services](#kubernetes-services)
+    - [Connecting to services living outside the cluster](#connecting-to-services-living-outside-the-cluster)
 
 ## What is Kubernetes
  - open source
@@ -94,8 +104,7 @@ kubectl port-forward kubia-manual 8888:8080
 - If we don't specify a namespace, it will pick `default` namespace. 
 - Create a namespace
   1. via Yaml file
-     <img width="590" alt="image" src="https://github.com/upasana05ghosh/Kubernetes-Notes/assets/17885669/3b1237eb-967f-4c2a-95c2-db0e9e2d526b">
-
+     1. //todo attach pic
   2. via command
       ```
       kubectl create namespace custom-namespace
@@ -112,3 +121,81 @@ kubectl port-forward kubia-manual 8888:8080
    ```
    kubectl delete all -all
    ```
+
+## Replication and other controllers
+
+### Keeping pods healthy
+- Liveness Probes
+  - Kubernetes will periodically execute the probe and restart the container if the probe fails. 
+  - 3 probing mechanism:
+    - HTTP Get
+    - TCP Socket
+    - Exec
+  - //todo add img for liveness check
+  - //todo add img of Last state
+  - Options
+    - delay=0s -> probing begins immediately
+    - timeout=1s -> container must return a response in 1s or probe is failed
+    - period=10s -> container is probed every 10s
+    - failure=3 -> container is restarted after 3 failed probes
+
+### Replication Controller
+- Kubernetes resource that ensure its pods are always kept running. 
+- It makes sure the actual number of pods of a "type" always matches the desired number. 
+- kind: ReplicationController
+
+### Using ReplicaSets instead of ReplicationController
+- ReplictionControllers are replaced by ReplicaSet.
+- ReplicaSet are usually not created directly, but are created automatically by Deployment resource.
+- kind: ReplicaSet
+- // TODO: Add replicat set image
+  
+### DaemonSets
+- When you want a pod to run on each and every node in the cluster and run exactly once. 
+- Ex - Run a log collector and a resource monitor. 
+- If a node goes down, the DaemonSet doesn't cause the pod to be created elsewhere. But when a new node is added to the cluster, the DaemonSet deploys a new pod instance in it. 
+- We can specify DaemonSet to run on a certain nodes.
+- // TODO - add daemon Set image
+
+### Job
+- Used when we want to run a task that terminates after completing it's work. 
+- ReplicaSets, DaemonSets run task continuously. If process exist, pod will get restarted. 
+- // TODO - add image
+- completion - If we need a job to run more than once. 
+- parallelism - #no. of pods that can run in parallel. 
+  
+### Cron Job
+- Batch jobs that needs to run at a specific time in the future or repeatedly in a specified interval. 
+- //Todo - attach image
+- schedule: "0,15,30,45 * * * *"
+  - min, hr, day of month, month, day of week
+  - 0,15,30,45 -> min mark of every hr of every day of month, every month and on every day of the week. 
+  - ie. run every 15 min
+- It should be idempotent.
+
+## Services
+- Pods needs a way of finding other pods if they want to consume the services they provide
+- Specifying exact IP address or hostname wouldn't work in kubernetes: 
+  - Pods are ephemeral - They may come and go at any time. 
+  - Kubernetes assigns an IP address to a pod after it has been scheduled to a node
+  - Horizontal scaling means multiple pods can provide the same service.
+  - Solution? - Kubernetes Service
+  
+### Kubernetes Services
+- is a resource to make a single, constant point of entry to a group of pods providing the same service. 
+- Each service has an IP and a port that never changes while the service exist. 
+- Todo - add a service image
+- kubectl get svc // give the list of services
+- It will give cluster-ip, it's only accessible from inside the cluster. (inside group of pods)
+  
+### Connecting to services living outside the cluster
+1. Service endpoint
+   1. Manually configuring service endpoints
+   2. Creating an alias for external service
+2. Exposing services to external clients
+   1. Setting the service type to NodePort
+      1. Each cluster node opens a port on the node itself. 
+   2. Setting the service type to LoadBalancer
+      1. Access the service via a dedicated load balancer. 
+   3. Creating an Ingress resource
+
