@@ -131,8 +131,8 @@ kubectl port-forward kubia-manual 8888:8080
     - HTTP Get
     - TCP Socket
     - Exec
-  - //todo add img for liveness check
-  - //todo add img of Last state
+  <img width="743" alt="image" src="https://github.com/upasana05ghosh/Kubernetes-Notes/assets/17885669/c4e12c76-0bb5-422a-8d21-42d7553405bf">
+  <img width="908" alt="image" src="https://github.com/upasana05ghosh/Kubernetes-Notes/assets/17885669/5e8d460b-bcb3-409b-9c05-4c1b9142e110">
   - Options
     - delay=0s -> probing begins immediately
     - timeout=1s -> container must return a response in 1s or probe is failed
@@ -148,25 +148,27 @@ kubectl port-forward kubia-manual 8888:8080
 - ReplictionControllers are replaced by ReplicaSet.
 - ReplicaSet are usually not created directly, but are created automatically by Deployment resource.
 - kind: ReplicaSet
-- // TODO: Add replicat set image
-  
+<img width="632" alt="image" src="https://github.com/upasana05ghosh/Kubernetes-Notes/assets/17885669/72b7fe97-a9ea-4bd8-ac8a-910f4622d046">
+
 ### DaemonSets
 - When you want a pod to run on each and every node in the cluster and run exactly once. 
 - Ex - Run a log collector and a resource monitor. 
 - If a node goes down, the DaemonSet doesn't cause the pod to be created elsewhere. But when a new node is added to the cluster, the DaemonSet deploys a new pod instance in it. 
 - We can specify DaemonSet to run on a certain nodes.
-- // TODO - add daemon Set image
+<img width="662" alt="image" src="https://github.com/upasana05ghosh/Kubernetes-Notes/assets/17885669/dbe1a3cd-5e9f-4880-ab3c-f57fd96981fd">
 
 ### Job
 - Used when we want to run a task that terminates after completing it's work. 
 - ReplicaSets, DaemonSets run task continuously. If process exist, pod will get restarted. 
-- // TODO - add image
+<img width="643" alt="image" src="https://github.com/upasana05ghosh/Kubernetes-Notes/assets/17885669/d5b375ca-af66-4d1f-aace-e9bcc33afaa8">
+
 - completion - If we need a job to run more than once. 
 - parallelism - #no. of pods that can run in parallel. 
   
 ### Cron Job
 - Batch jobs that needs to run at a specific time in the future or repeatedly in a specified interval. 
-- //Todo - attach image
+<img width="678" alt="image" src="https://github.com/upasana05ghosh/Kubernetes-Notes/assets/17885669/13e11a11-c81a-4a90-94aa-3a4cf8a2b37d">
+
 - schedule: "0,15,30,45 * * * *"
   - min, hr, day of month, month, day of week
   - 0,15,30,45 -> min mark of every hr of every day of month, every month and on every day of the week. 
