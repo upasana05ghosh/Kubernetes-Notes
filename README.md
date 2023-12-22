@@ -104,7 +104,7 @@ kubectl port-forward kubia-manual 8888:8080
 - If we don't specify a namespace, it will pick `default` namespace. 
 - Create a namespace
   1. via Yaml file
-     1. //todo attach pic
+     1. <img width="421" alt="image" src="https://github.com/upasana05ghosh/Kubernetes-Notes/assets/17885669/ac637f65-4fed-4438-bb6c-66c22b3b2a3e">
   2. via command
       ```
       kubectl create namespace custom-namespace
@@ -186,8 +186,9 @@ kubectl port-forward kubia-manual 8888:8080
 ### Kubernetes Services
 - is a resource to make a single, constant point of entry to a group of pods providing the same service. 
 - Each service has an IP and a port that never changes while the service exist. 
-- Todo - add a service image
+<img width="443" alt="image" src="https://github.com/upasana05ghosh/Kubernetes-Notes/assets/17885669/e09e3c8c-f05b-4284-b606-fef11e014297">
 - kubectl get svc // give the list of services
+<img width="708" alt="image" src="https://github.com/upasana05ghosh/Kubernetes-Notes/assets/17885669/00f15b0a-8679-4b3f-b588-77786a521e7b">
 - It will give cluster-ip, it's only accessible from inside the cluster. (inside group of pods)
   
 ### Connecting to services living outside the cluster
